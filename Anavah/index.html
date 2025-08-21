@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anavah — Learn, Grow, Excel in Real Time</title>
+  <meta name="description" content="Anavah is a comprehensive online education platform providing tutorials, structured courses, live sessions, and educational resources across multiple fields.">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Swiper JS for carousels -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  
+  <!-- AOS - Animate on scroll library -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <style id="app-style">
+    /* Custom styles */
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #f59e0b;
+      --light: #f3f4f6;
+      --dark: #1f2937;
+      --text-dark: #374151;
+      --text-light: #f9fafb;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .prose-content {
+      font-family: 'Lora', serif;
+    }
+    
+    .bg-gradient-hero {
+      background: linear-gradient(135deg, #2563eb 0%, #3b82f6 40%, #60a5fa 100%);
+    }
+    
+    .bg-gradient-card {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    }
+    
+    .bg-gradient-dark {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+    
+    /* Animated background */
+    .animated-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .animated-bg .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      animation: float 8s infinite ease-in-out;
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(10deg);
+      }
+    }
+    
+    /* Course card hover effect */
+    .course-card {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a1a1a1;
+    }
+    
+    /* Dark mode styles */
+    .dark {
+      background-color: var(--dark);
+      color: var(--text-light);
+    }
+    
+    .dark .bg-white {
+      background-color: #1f2937;
+    }
+    
+    .dark .text-gray-800 {
+      color: #f3f4f6;
+    }
+    
+    .dark .border-gray-200 {
+      border-color: #374151;
+    }
+    
+    /* Skeleton loading */
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+    
+    .animate-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    /* Progress bar animation */
+    .progress-bar {
+      transition: width 0.5s ease-in-out;
+    }
+    
+    /* Tabs navigation */
+    .tab-btn.active {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+    
+    /* Custom accordion styles */
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    
+    .accordion-content.open {
+      max-height: 1000px;
+    }
+    
+    /* Custom select styles */
+    .custom-select {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .swiper-pagination-bullet-active {
+      background-color: var(--primary) !important;
+    }
+
+    /* Hero section height */
+    .hero-section {
+      min-height: calc(100vh - 80px);
+    }
+    
+    /* Cart drawer */
+    .cart-drawer {
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    
+    .cart-drawer.open {
+      transform: translateX(0);
+    }
+    
+    /* Back to top button */
+    #backToTop {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 99;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    #backToTop.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Stats counter animation */
+    .stat-counter {
+      transition: all 2s ease;
+    }
+
+    /* Category card hover effect */
+    .category-card {
+      transition: all 0.3s ease;
+    }
+    
+    .category-card:hover {
+      transform: scale(1.05);
+    }
+
+    .dropdown-menu {
+      display: none;
+    }
+    
+    .dropdown-menu.show {
+      display: block;
+    }
+    
+    /* Course preview modal */
+    .modal {
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+    
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true', mobileMenu: false, cartOpen: false }">
+
+  <!-- Header/Navigation -->
+  <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-200">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center h-20">
+        <!-- Logo -->
+        <div class="flex items-center">
+          <a href="javascript:void(0)" class="flex items-center">
+            <svg class="h-10 w-10 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2L4 7.5V12.5L12 18L20 12.5V7.5L12 2Z"></path>
+              <path d="M12 22L4 16.5V14.5L12 20L20 14.5V16.5L12 22Z" fill-opacity="0.5"></path>
+            </svg>
+            <span class="ml-2 text-2xl font-bold text-gray-900">Anavah</span>
+          </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="javascript:void(0)" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+          <a href="javascript:void(0)" class="text-gray-700 hover:text-blue-600 font-medium">Courses</a>
+          <div class="relative group">
+            <button class="text-gray-700 hover:text-blue-600 font-medium flex items-center">
+              Categories
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
+              <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Programming</a>
+              <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Business</a>
+              <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Design</a>
+              <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Science</a>
+              <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Languages</a>
+              <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Technology</a>
+              <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Soft Skills</a>
+            </div>
+          </div>
+          <a href="javascript:void(0)" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+          <a href="javascript:void(0)" class="text-gray-700 hover:text-blue-600 font-medium">Blog</a>
+          <a href="javascript:void(0)" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+        </nav>
+
+        <!-- Right navigation elements -->
+        <div class="flex items-center space-x-4">
+          <!-- Search -->
+          <div class="hidden md:block relative">
+            <input type="text" placeholder="Search courses..." class="bg-gray-100 rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64">
+            <div class="absolute left-3 top-2">
+              <i class="fas fa-search text-gray-400"></i>
+            </div>
+          </div>
+
+          <!-- Dark mode toggle -->
+          <button id="darkModeToggle" class="p-2 rounded-full hover:bg-gray-200">
+            <i id="darkModeIcon" class="fas fa-moon text-gray-600"></i>
+          </button>
+
+          <!-- Shopping cart -->
+          <button id="cartButton" class="p-2 rounded-full hover:bg-gray-200 relative">
+            <i class="fas fa-shopping-cart text-gray-600"></i>
+            <span class="absolute -top-1 -right-1 bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">3</span>
+          </button>
+
+          <!-- User menu -->
+          <div class="relative ml-3" id="userMenuContainer">
+            <div>
+              <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="userMenu" aria-expanded="false" aria-haspopup="true">
+                <span class="sr-only">Open user menu</span>
+                <img class="h-8 w-8 rounded-full" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="User profile">
+              </button>
+            </div>
+
+            <!-- User dropdown menu -->
+            <div class="dropdown-menu origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="userMenu">
+              <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Your Profile</a>
+              <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Dashboard</a>
+              <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Wishlist</a>
+              <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Settings</a>
+              <div class="border-t border-gray-100"></div>
+              <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
+            </div>
+          </div>
+
+          <!-- Mobile menu button -->
+          <button type="button" class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" id="mobileMenuButton" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <i class="fas fa-bars text-gray-600"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile menu, show/hide based on menu state -->
+      <div class="md:hidden hidden" id="mobileMenu">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+          <a href="javascript:void(0)" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-blue-600">Home</a>
+          <a href="javascript:void(0)" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-blue-600">Courses</a>
+          <a href="javascript:void(0)" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-blue-600">Categories</a>
+          <a href="javascript:void(0)" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-blue-600">About</a>
+          <a href="javascript:void(0)" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-blue-600">Blog</a>
+          <a href="javascript:void(0)" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-blue-600">Contact</a>
+        </div>
+        <div class="border-t border-gray-200 pt-4 pb-3">
+          <div class="flex items-center px-4">
+            <div class="flex-shrink-0">
+              <img class="h-10 w-10 rounded-full" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="User profile">
+            </div>
+            <div class="ml-3">
+              <div class="text-base font-medium text-gray-800">John Doe</div>
+              <div class="text-sm font-medium text-gray-500">john@example.com</div>
+            </div>
+          </div>
+          <div class="mt-3 px-2 space-y-1">
+            <a href="javascript:void(0)" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-blue-600">Your Profile</a>
+            <a href="javascript:void(0)" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-blue-600">Dashboard</a>
+            <a href="javascript:void(0)" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-blue-600">Wishlist</a>
+            <a href="javascript:void(0)" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-blue-600">Settings</a>
+            <a href="javascript:void(0)" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-blue-600">Sign out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="bg-gradient-hero text-white hero-section relative overflow-hidden">
+      <!-- Animated background -->
+      <div class="animated-bg">
+        <div class="bubble" style="width: 100px; height: 100px; left: 10%; top: 10%;"></div>
+        <div class="bubble" style="width: 150px; height: 150px; right: 20%; top: 40%;"></div>
+        <div class="bubble" style="width: 80px; height: 80px; left: 30%; bottom: 30%;"></div>
+        <div class="bubble" style="width: 120px; height: 120px; right: 15%; bottom: 10%;"></div>
+      </div>
+      
+      <div class="container mx-auto px-4 py-24 relative">
+        <div class="max-w-3xl" data-aos="fade-up" data-aos-duration="1000">
+          <h1 class="text-4xl md:text-6xl font-bold mb-6">Anavah — Learn, Grow, Excel in Real Time</h1>
+          <p class="text-xl mb-8">Discover a comprehensive library of courses taught by industry experts. Learn at your own pace and achieve your goals.</p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="javascript:void(0)" class="bg-white text-blue-600 hover:bg-gray-100 py-3 px-6 rounded-full font-semibold text-lg inline-flex items-center justify-center transition duration-300">
+              Explore Courses
+              <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+            <a href="javascript:void(0)" class="bg-blue-700 hover:bg-blue-800 text-white py-3 px-6 rounded-full font-semibold text-lg inline-flex items-center justify-center transition duration-300">
+              <i class="fas fa-play mr-2"></i>
+              How It Works
+            </a>
+          </div>
+        </div>
+        
+
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+          <h2 class="text-3xl font-bold mb-4">Explore Top Categories</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">Discover the perfect course from our diverse range of categories designed to meet all your learning needs.</p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 mb-8">
+          <!-- Category 1 -->
+          <div class="category-card bg-blue-50 rounded-xl p-6 text-center shadow-sm hover:shadow-md cursor-pointer" data-aos="zoom-in" data-aos-delay="100">
+            <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-laptop-code text-blue-600 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold mb-1">Programming</h3>
+            <p class="text-gray-600 text-sm">128 Courses</p>
+          </div>
+          
+          <!-- Category 2 -->
+          <div class="category-card bg-green-50 rounded-xl p-6 text-center shadow-sm hover:shadow-md cursor-pointer" data-aos="zoom-in" data-aos-delay="200">
+            <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-chart-line text-green-600 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold mb-1">Business</h3>
+            <p class="text-gray-600 text-sm">96 Courses</p>
+          </div>
+          
+          <!-- Category 3 -->
+          <div class="category-card bg-purple-50 rounded-xl p-6 text-center shadow-sm hover:shadow-md cursor-pointer" data-aos="zoom-in" data-aos-delay="300">
+            <div class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-palette text-purple-600 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold mb-1">Design</h3>
+            <p class="text-gray-600 text-sm">85 Courses</p>
+          </div>
+          
+          <!-- Category 4 -->
+          <div class="category-card bg-red-50 rounded-xl p-6 text-center shadow-sm hover:shadow-md cursor-pointer" data-aos="zoom-in" data-aos-delay="400">
+            <div class="bg-red-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-flask text-red-600 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold mb-1">Science</h3>
+            <p class="text-gray-600 text-sm">64 Courses</p>
+          </div>
+          
+          <!-- Category 5 -->
+          <div class="category-card bg-yellow-50 rounded-xl p-6 text-center shadow-sm hover:shadow-md cursor-pointer" data-aos="zoom-in" data-aos-delay="500">
+            <div class="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-language text-yellow-600 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold mb-1">Languages</h3>
+            <p class="text-gray-600 text-sm">72 Courses</p>
+          </div>
+          
+          <!-- Category 6 -->
+          <div class="category-card bg-indigo-50 rounded-xl p-6 text-center shadow-sm hover:shadow-md cursor-pointer" data-aos="zoom-in" data-aos-delay="600">
+            <div class="bg-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-microchip text-indigo-600 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold mb-1">Technology</h3>
+            <p class="text-gray-600 text-sm">103 Courses</p>
+          </div>
+          
+          <!-- Category 7 -->
+          <div class="category-card bg-pink-50 rounded-xl p-6 text-center shadow-sm hover:shadow-md cursor-pointer" data-aos="zoom-in" data-aos-delay="700">
+            <div class="bg-pink-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-comments text-pink-600 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold mb-1">Soft Skills</h3>
+            <p class="text-gray-600 text-sm">58 Courses</p>
+          </div>
+        </div>
+        
+        <div class="text-center">
+          <a href="javascript:void(0)" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
+            View All Categories
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Courses Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10">
+          <div data-aos="fade-right">
+            <h2 class="text-3xl font-bold mb-2">Featured Courses</h2>
+            <p class="text-gray-600">Handpicked courses recommended by our experts</p>
+          </div>
+          <div class="flex mt-4 md:mt-0" data-aos="fade-left">
+            <button id="grid-view-btn" class="p-2 bg-blue-600 text-white rounded-l-lg">
+              <i class="fas fa-th"></i>
+            </button>
+            <button id="list-view-btn" class="p-2 bg-gray-200 text-gray-600 rounded-r-lg">
+              <i class="fas fa-list"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Courses Grid View -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="grid-view">
+          <!-- Course Card 1 -->
+          <div class="course-card bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="100">
+            <div class="relative">
+              <img src="https://images.unsplash.com/photo-1649180556628-9ba704115795?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxfHxQeXRob24lMjBQcm9ncmFtbWluZ3xlbnwwfHx8fDE3NTUzNzg0ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Python Programming Masterclass" class="w-full h-48 object-cover">
+              <div class="absolute top-4 left-4">
+                <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">BESTSELLER</span>
+              </div>
+              <button class="wishlist-button absolute top-4 right-4 bg-white p-2 rounded-full shadow">
+                <i class="far fa-heart text-gray-600"></i>
+              </button>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center mb-3">
+                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">Programming</span>
+                <span class="ml-2 bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Intermediate</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">Python Programming Masterclass</h3>
+              <p class="text-gray-600 mb-4 line-clamp-2">Learn Python programming from basics to advanced concepts with real-world projects.</p>
+              <div class="flex items-center mb-4">
+                <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png" alt="Instructor" class="w-8 h-8 rounded-full mr-3">
+                <span class="text-sm text-gray-700 font-medium">Dr. Alex Johnson</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                  <span class="ml-2 text-gray-600 text-sm">4.8 (2,345)</span>
+                </div>
+                <span class="font-bold text-blue-600">$59.99</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Course Card 2 -->
+          <div class="course-card bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="200">
+            <div class="relative">
+              <img src="https://cdn.pixabay.com/photo/2018/05/08/08/44/artificial-intelligence-3382507_960_720.jpg" alt="AI & Machine Learning Fundamentals" class="w-full h-48 object-cover">
+              <div class="absolute top-4 left-4">
+                <span class="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold">NEW</span>
+              </div>
+              <button class="wishlist-button absolute top-4 right-4 bg-white p-2 rounded-full shadow">
+                <i class="far fa-heart text-gray-600"></i>
+              </button>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center mb-3">
+                <span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full font-medium">Technology</span>
+                <span class="ml-2 bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Advanced</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">AI & Machine Learning Fundamentals</h3>
+              <p class="text-gray-600 mb-4 line-clamp-2">Master the core concepts of artificial intelligence and machine learning algorithms.</p>
+              <div class="flex items-center mb-4">
+                <img src="https://cdn.pixabay.com/photo/2017/01/31/19/07/avatar-2026510_960_720.png" alt="Instructor" class="w-8 h-8 rounded-full mr-3">
+                <span class="text-sm text-gray-700 font-medium">Prof. Sarah Williams</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <span class="ml-2 text-gray-600 text-sm">5.0 (1,120)</span>
+                </div>
+                <span class="font-bold text-blue-600">$79.99</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Course Card 3 -->
+          <div class="course-card bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="300">
+            <div class="relative">
+              <img src="https://cdn.pixabay.com/photo/2021/08/04/13/06/software-developer-6521720_960_720.jpg" alt="Web Development Bootcamp" class="w-full h-48 object-cover">
+              <div class="absolute top-4 left-4">
+                <span class="bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-semibold">POPULAR</span>
+              </div>
+              <button class="wishlist-button absolute top-4 right-4 bg-white p-2 rounded-full shadow">
+                <i class="fas fa-heart text-red-500"></i>
+              </button>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center mb-3">
+                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">Programming</span>
+                <span class="ml-2 bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Beginner</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">Web Development Bootcamp 2025</h3>
+              <p class="text-gray-600 mb-4 line-clamp-2">Become a full-stack web developer from scratch with this comprehensive bootcamp.</p>
+              <div class="flex items-center mb-4">
+                <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png" alt="Instructor" class="w-8 h-8 rounded-full mr-3">
+                <span class="text-sm text-gray-700 font-medium">Mike Zhang</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </div>
+                  <span class="ml-2 text-gray-600 text-sm">4.2 (3,456)</span>
+                </div>
+                <span class="font-bold text-blue-600">$89.99</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Course Card 4 -->
+          <div class="course-card bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="100">
+            <div class="relative">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHw0fHxEaWdpdGFsJTIwTWFya2V0aW5nfGVufDB8fHx8MTc1NTM3ODM5Nnww&ixlib=rb-4.1.0&q=80&w=1080" alt="Digital Marketing Mastery" class="w-full h-48 object-cover">
+              <button class="wishlist-button absolute top-4 right-4 bg-white p-2 rounded-full shadow">
+                <i class="far fa-heart text-gray-600"></i>
+              </button>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center mb-3">
+                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">Business</span>
+                <span class="ml-2 bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">All Levels</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">Digital Marketing Mastery</h3>
+              <p class="text-gray-600 mb-4 line-clamp-2">Learn SEO, social media, email marketing, and more to grow your business online.</p>
+              <div class="flex items-center mb-4">
+                <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png" alt="Instructor" class="w-8 h-8 rounded-full mr-3">
+                <span class="text-sm text-gray-700 font-medium">Emma Rodriguez</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                  <span class="ml-2 text-gray-600 text-sm">4.7 (2,122)</span>
+                </div>
+                <span class="font-bold text-blue-600">$64.99</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Course Card 5 -->
+          <div class="course-card bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="200">
+            <div class="relative">
+              <img src="https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_960_720.jpg" alt="Financial Literacy & Investment" class="w-full h-48 object-cover">
+              <div class="absolute top-4 left-4">
+                <span class="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold">TOP RATED</span>
+              </div>
+              <button class="wishlist-button absolute top-4 right-4 bg-white p-2 rounded-full shadow">
+                <i class="far fa-heart text-gray-600"></i>
+              </button>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center mb-3">
+                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">Business</span>
+                <span class="ml-2 bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Intermediate</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">Financial Literacy & Investment</h3>
+              <p class="text-gray-600 mb-4 line-clamp-2">Build wealth through proper financial planning and smart investment strategies.</p>
+              <div class="flex items-center mb-4">
+                <img src="https://cdn.pixabay.com/photo/2017/01/31/19/07/avatar-2026510_960_720.png" alt="Instructor" class="w-8 h-8 rounded-full mr-3">
+                <span class="text-sm text-gray-700 font-medium">Robert Chen, CFA</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <span class="ml-2 text-gray-600 text-sm">4.9 (3,210)</span>
+                </div>
+                <span class="font-bold text-blue-600">$69.99</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Course Card 6 -->
+          <div class="course-card bg-white rounded-xl overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="300">
+            <div class="relative">
+              <img src="https://cdn.pixabay.com/photo/2018/02/06/14/07/ease-3134828_960_720.jpg" alt="Mindfulness & Stress Management" class="w-full h-48 object-cover">
+              <div class="absolute top-4 left-4">
+                <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">TRENDING</span>
+              </div>
+              <button class="wishlist-button absolute top-4 right-4 bg-white p-2 rounded-full shadow">
+                <i class="fas fa-heart text-red-500"></i>
+              </button>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center mb-3">
+                <span class="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded-full font-medium">Soft Skills</span>
+                <span class="ml-2 bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">All Levels</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">Mindfulness & Stress Management</h3>
+              <p class="text-gray-600 mb-4 line-clamp-2">Master practical techniques to reduce stress and improve focus in your daily life.</p>
+              <div class="flex items-center mb-4">
+                <img src="https://cdn.pixabay.com/photo/2017/01/31/19/07/avatar-2026510_960_720.png" alt="Instructor" class="w-8 h-8 rounded-full mr-3">
+                <span class="text-sm text-gray-700 font-medium">Dr. Sophia Patel</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                  <span class="ml-2 text-gray-600 text-sm">4.8 (1,876)</span>
+                </div>
+                <span class="font-bold text-blue-600">$49.99</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Courses List View (Hidden by Default) -->
+        <div class="hidden flex flex-col space-y-6" id="list-view">
+          <!-- Course List Item 1 -->
+          <div class="course-card bg-white rounded-xl overflow-hidden shadow-md flex flex-col md:flex-row">
+            <div class="relative md:w-64 h-48">
+              <img src="https://images.unsplash.com/photo-1649180556628-9ba704115795?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxfHxQeXRob24lMjBQcm9ncmFtbWluZ3xlbnwwfHx8fDE3NTUzNzg0ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Python Programming Masterclass" class="w-full h-full object-cover">
+              <div class="absolute top-4 left-4">
+                <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">BESTSELLER</span>
+              </div>
+            </div>
+            <div class="p-6 flex-1">
+              <div class="flex items-center mb-3">
+                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">Programming</span>
+                <span class="ml-2 bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Intermediate</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">Python Programming Masterclass</h3>
+              <p class="text-gray-600 mb-4">Learn Python programming from basics to advanced concepts with real-world projects.</p>
+              <div class="flex items-center justify-between flex-wrap gap-4">
+                <div class="flex items-center">
+                  <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png" alt="Instructor" class="w-8 h-8 rounded-full mr-3">
+                  <span class="text-sm text-gray-700 font-medium">Dr. Alex Johnson</span>
+                </div>
+                <div class="flex items-center">
+                  <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                  <span class="ml-2 text-gray-600 text-sm">4.8 (2,345)</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="font-bold text-blue-600">$59.99</span>
+                  <button class="wishlist-button bg-gray-100 p-2 rounded-full">
+                    <i class="far fa-heart text-gray-600"></i>
+                  </button>
+                  <a href="javascript:void(0)" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">View Course</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Additional list items would go here -->
+        </div>
+
+        <div class="text-center mt-12">
+          <a href="javascript:void(0)" class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-lg font-semibold inline-flex items-center transition duration-300">
+            View All Courses
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-16 bg-gradient-hero text-white relative overflow-hidden">
+      <div class="animated-bg">
+        <div class="bubble" style="width: 120px; height: 120px; left: 5%; top: 20%;"></div>
+        <div class="bubble" style="width: 80px; height: 80px; right: 10%; top: 30%;"></div>
+        <div class="bubble" style="width: 150px; height: 150px; left: 15%; bottom: 10%;"></div>
+      </div>
+      
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+          <h2 class="text-3xl font-bold mb-4">Why Choose Anavah</h2>
+          <p class="max-w-2xl mx-auto">Join millions of learners worldwide who trust Anavah for their educational journey</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Stat 1 -->
+          <div class="text-center" data-aos="zoom-in" data-aos-delay="100">
+            <div class="text-4xl font-bold mb-2">
+              <span class="stat-counter" data-target="10000">0</span>+
+            </div>
+            <p class="text-xl opacity-80">Active Learners</p>
+          </div>
+          
+          <!-- Stat 2 -->
+          <div class="text-center" data-aos="zoom-in" data-aos-delay="200">
+            <div class="text-4xl font-bold mb-2">
+              <span class="stat-counter" data-target="500">0</span>+
+            </div>
+            <p class="text-xl opacity-80">Expert Instructors</p>
+          </div>
+          
+          <!-- Stat 3 -->
+          <div class="text-center" data-aos="zoom-in" data-aos-delay="300">
+            <div class="text-4xl font-bold mb-2">
+              <span class="stat-counter" data-target="1200">0</span>+
+            </div>
+            <p class="text-xl opacity-80">Courses Available</p>
+          </div>
+          
+          <!-- Stat 4 -->
+          <div class="text-center" data-aos="zoom-in" data-aos-delay="400">
+            <div class="text-4xl font-bold mb-2">
+              <span class="stat-counter" data-target="98">0</span>%
+            </div>
+            <p class="text-xl opacity-80">Success Rate</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+          <h2 class="text-3xl font-bold mb-4">How Anavah Works</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">Our platform makes it easy to discover, learn, and excel with a seamless learning experience</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Step 1 -->
+          <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+              <i class="fas fa-search text-blue-600 text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">1. Discover</h3>
+            <p class="text-gray-600">Browse our extensive catalog and find the perfect course that matches your goals</p>
+          </div>
+          
+          <!-- Step 2 -->
+          <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+              <i class="fas fa-credit-card text-blue-600 text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">2. Enroll</h3>
+            <p class="text-gray-600">Purchase and enroll in your chosen courses with secure, hassle-free payment</p>
+          </div>
+          
+          <!-- Step 3 -->
+          <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+            <div class="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+              <i class="fas fa-laptop text-blue-600 text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">3. Learn</h3>
+            <p class="text-gray-600">Access course materials, video lectures, assignments, and live sessions</p>
+          </div>
+          
+          <!-- Step 4 -->
+          <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+            <div class="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+              <i class="fas fa-certificate text-blue-600 text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">4. Succeed</h3>
+            <p class="text-gray-600">Complete courses, earn certificates, and apply your new skills in the real world</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+          <h2 class="text-3xl font-bold mb-4">What Our Students Say</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">Hear from our community of learners who have transformed their lives through education</p>
+        </div>
+        
+        <div class="swiper testimonial-swiper" data-aos="fade-up">
+          <div class="swiper-wrapper pb-12">
+            <!-- Testimonial 1 -->
+            <div class="swiper-slide">
+              <div class="bg-white p-8 rounded-xl shadow-md">
+                <div class="flex text-yellow-400 mb-4">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <blockquote class="text-gray-600 mb-6">
+                  "Anavah's Python Programming Masterclass completely transformed my career. The instructor's teaching style was engaging and the real-world projects helped me land a job as a developer within three months of completion."
+                </blockquote>
+                <div class="flex items-center">
+                  <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png" alt="Student" class="w-12 h-12 rounded-full mr-4">
+                  <div>
+                    <h4 class="font-semibold">Michael Torres</h4>
+                    <p class="text-gray-500 text-sm">Software Developer</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Testimonial 2 -->
+            <div class="swiper-slide">
+              <div class="bg-white p-8 rounded-xl shadow-md">
+                <div class="flex text-yellow-400 mb-4">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <blockquote class="text-gray-600 mb-6">
+                  "The Financial Literacy course was eye-opening! I've finally taken control of my finances and started investing with confidence. The live Q&A sessions were particularly valuable for addressing my specific questions."
+                </blockquote>
+                <div class="flex items-center">
+                  <img src="https://cdn.pixabay.com/photo/2017/01/31/19/07/avatar-2026510_960_720.png" alt="Student" class="w-12 h-12 rounded-full mr-4">
+                  <div>
+                    <h4 class="font-semibold">Jennifer Kim</h4>
+                    <p class="text-gray-500 text-sm">Marketing Manager</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Testimonial 3 -->
+            <div class="swiper-slide">
+              <div class="bg-white p-8 rounded-xl shadow-md">
+                <div class="flex text-yellow-400 mb-4">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                </div>
+                <blockquote class="text-gray-600 mb-6">
+                  "As an instructor, Anavah provides me with the perfect platform to share my knowledge globally. The tools for creating engaging content are excellent, and the support team is always responsive to my needs."
+                </blockquote>
+                <div class="flex items-center">
+                  <img src="https://cdn.pixabay.com/photo/2017/01/31/19/07/avatar-2026510_960_720.png" alt="Instructor" class="w-12 h-12 rounded-full mr-4">
+                  <div>
+                    <h4 class="font-semibold">Dr. David Patel</h4>
+                    <p class="text-gray-500 text-sm">AI Researcher & Instructor</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Testimonial 4 -->
+            <div class="swiper-slide">
+              <div class="bg-white p-8 rounded-xl shadow-md">
+                <div class="flex text-yellow-400 mb-4">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <blockquote class="text-gray-600 mb-6">
+                  "I've tried many online learning platforms, but Anavah stands out for the quality of instructors and interactive learning experience. The mindfulness course helped me manage work stress and improve my productivity significantly."
+                </blockquote>
+                <div class="flex items-center">
+                  <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png" alt="Student" class="w-12 h-12 rounded-full mr-4">
+                  <div>
+                    <h4 class="font-semibold">Carlos Mendez</h4>
+                    <p class="text-gray-500 text-sm">Project Manager</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Pagination -->
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upcoming Live Sessions -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+          <h2 class="text-3xl font-bold mb-4">Upcoming Live Sessions</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">Join our interactive live classes taught by industry experts</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Live Session 1 -->
+          <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100" data-aos="fade-up" data-aos-delay="100">
+            <div class="relative">
+              <img src="https://cdn.pixabay.com/photo/2020/07/08/04/12/work-5382501_960_720.jpg" alt="Data Science Q&A" class="w-full h-48 object-cover">
+              <div class="absolute top-0 left-0 bg-red-600 text-white px-4 py-1 rounded-br-lg text-sm font-semibold flex items-center">
+                <span class="animate-pulse mr-2">⦿</span> LIVE SOON
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Data Science Q&A Session</h3>
+              <p class="text-gray-600 mb-4">Join our expert data scientists for a live Q&A session on machine learning algorithms and data visualization techniques.</p>
+              <div class="flex items-center mb-4">
+                <i class="far fa-calendar-alt text-blue-600 mr-2"></i>
+                <span class="text-gray-700">May 15, 2025 • 10:00 AM PST</span>
+              </div>
+              <div class="flex items-center mb-6">
+                <img src="https://cdn.pixabay.com/photo/2017/01/31/19/07/avatar-2026510_960_720.png" alt="Instructor" class="w-8 h-8 rounded-full mr-3">
+                <span class="text-sm text-gray-700 font-medium">Dr. Rachel Moore</span>
+              </div>
+              <a href="javascript:void(0)" class="block bg-blue-600 text-white text-center py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+                Set Reminder
+              </a>
+            </div>
+          </div>
+          
+          <!-- Live Session 2 -->
+          <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100" data-aos="fade-up" data-aos-delay="200">
+            <div class="relative">
+              <img src="https://images.unsplash.com/photo-1563457012475-13cf086fd600?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHw4fHxMZWFkZXJzaGlwJTIwV29ya3Nob3B8ZW58MHx8fHwxNzU1Mzc4NjE0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Leadership Workshop" class="w-full h-48 object-cover">
+              <div class="absolute top-0 left-0 bg-red-600 text-white px-4 py-1 rounded-br-lg text-sm font-semibold flex items-center">
+                <span class="animate-pulse mr-2">⦿</span> LIVE SOON
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Effective Leadership Workshop</h3>
+              <p class="text-gray-600 mb-4">Learn key leadership skills that will help you inspire and motivate teams in today's dynamic work environment.</p>
+              <div class="flex items-center mb-4">
+                <i class="far fa-calendar-alt text-blue-600 mr-2"></i>
+                <span class="text-gray-700">May 18, 2025 • 2:00 PM PST</span>
+              </div>
+              <div class="flex items-center mb-6">
+                <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png" alt="Instructor" class="w-8 h-8 rounded-full mr-3">
+                <span class="text-sm text-gray-700 font-medium">Thomas Greene, MBA</span>
+              </div>
+              <a href="javascript:void(0)" class="block bg-blue-600 text-white text-center py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+                Set Reminder
+              </a>
+            </div>
+          </div>
+          
+          <!-- Live Session 3 -->
+          <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100" data-aos="fade-up" data-aos-delay="300">
+            <div class="relative">
+              <img src="https://images.unsplash.com/photo-1666362755385-1856fca1a330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHw0fHxQc3ljaG9sb2d5fGVufDB8fHx8MTc1NTM3ODU1N3ww&ixlib=rb-4.1.0&q=80&w=1080" alt="Psychology & Happiness" class="w-full h-48 object-cover">
+              <div class="absolute top-0 left-0 bg-red-600 text-white px-4 py-1 rounded-br-lg text-sm font-semibold flex items-center">
+                <span class="animate-pulse mr-2">⦿</span> LIVE SOON
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">Psychology of Happiness</h3>
+              <p class="text-gray-600 mb-4">Discover science-backed strategies to increase happiness and well-being in your personal and professional life.</p>
+              <div class="flex items-center mb-4">
+                <i class="far fa-calendar-alt text-blue-600 mr-2"></i>
+                <span class="text-gray-700">May 20, 2025 • 6:00 PM PST</span>
+              </div>
+              <div class="flex items-center mb-6">
+                <img src="https://cdn.pixabay.com/photo/2017/01/31/19/07/avatar-2026510_960_720.png" alt="Instructor" class="w-8 h-8 rounded-full mr-3">
+                <span class="text-sm text-gray-700 font-medium">Dr. Lisa Wong, Ph.D</span>
+              </div>
+              <a href="javascript:void(0)" class="block bg-blue-600 text-white text-center py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+                Set Reminder
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="text-center mt-12">
+          <a href="javascript:void(0)" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
+            View All Upcoming Sessions
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-16 bg-gradient-hero text-white relative overflow-hidden">
+      <div class="animated-bg">
+        <div class="bubble" style="width: 100px; height: 100px; right: 10%; top: 20%;"></div>
+        <div class="bubble" style="width: 120px; height: 120px; left: 5%; bottom: 30%;"></div>
+      </div>
+      
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
+          <h2 class="text-3xl font-bold mb-4">Stay Updated with Anavah</h2>
+          <p class="mb-8">Join our newsletter to get the latest updates on new courses, promotions, and educational content</p>
+          <form class="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
+            <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+            <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg font-semibold transition duration-300">
+              Subscribe Now
+            </button>
+          </form>
+          <p class="mt-4 text-sm opacity-80">By subscribing, you agree to our Privacy Policy and consent to receive updates from Anavah.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured In Section -->
+    <section class="py-12 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-8 text-gray-500 font-medium" data-aos="fade-up">FEATURED IN</div>
+        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70">
+          <img src="https://cdn.pixabay.com/photo/2013/01/29/00/47/google-76517_960_720.png" alt="Google" class="h-8 md:h-10 object-contain grayscale">
+          <img src="https://images.unsplash.com/photo-1621768216002-5ac171876625?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwzfHxBcHBsZXxlbnwwfHx8fDE3NTUzNTEyNjF8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Apple" class="h-8 md:h-10 object-contain grayscale">
+          <img src="https://cdn.pixabay.com/photo/2013/02/12/09/07/microsoft-80658_960_720.png" alt="Microsoft" class="h-8 md:h-10 object-contain grayscale">
+          <img src="https://cdn.pixabay.com/photo/2018/05/08/21/29/paypal-3384015_960_720.png" alt="PayPal" class="h-8 md:h-8 object-contain grayscale">
+          <img src="https://images.unsplash.com/photo-1636051028886-0059ad2383c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxfHxNZXRhfGVufDB8fHx8MTc1NTM3ODQ1NHww&ixlib=rb-4.1.0&q=80&w=1080" alt="Meta" class="h-8 md:h-10 object-contain grayscale">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white pt-16 pb-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+        <!-- Company Info -->
+        <div class="lg:col-span-2">
+          <div class="flex items-center mb-4">
+            <svg class="h-10 w-10 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2L4 7.5V12.5L12 18L20 12.5V7.5L12 2Z"></path>
+              <path d="M12 22L4 16.5V14.5L12 20L20 14.5V16.5L12 22Z" fill-opacity="0.5"></path>
+            </svg>
+            <span class="ml-2 text-2xl font-bold">Anavah</span>
+          </div>
+          <p class="text-gray-400 mb-6">Anavah is a comprehensive online education platform providing tutorials, structured courses, live sessions, and educational resources across multiple fields.</p>
+          <div class="flex space-x-4">
+            <a href="javascript:void(0)" class="bg-gray-800 hover:bg-gray-700 h-10 w-10 rounded-full flex items-center justify-center transition duration-300">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="javascript:void(0)" class="bg-gray-800 hover:bg-gray-700 h-10 w-10 rounded-full flex items-center justify-center transition duration-300">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="javascript:void(0)" class="bg-gray-800 hover:bg-gray-700 h-10 w-10 rounded-full flex items-center justify-center transition duration-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="javascript:void(0)" class="bg-gray-800 hover:bg-gray-700 h-10 w-10 rounded-full flex items-center justify-center transition duration-300">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-3">
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">About Us</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">Courses</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">Blog</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
+          </ul>
+        </div>
+        
+        <!-- Categories -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Categories</h3>
+          <ul class="space-y-3">
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">Programming</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">Business</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">Design</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">Science</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">Languages</a></li>
+          </ul>
+        </div>
+        
+        <!-- Support -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Support</h3>
+          <ul class="space-y-3">
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">Help Center</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">FAQs</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">Terms of Service</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white transition duration-300">Affiliate Program</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-400 text-sm">© 2025 kirubel-dev. All rights reserved.</p>
+          <div class="mt-4 md:mt-0">
+            <select class="bg-gray-800 text-gray-400 text-sm py-2 px-4 rounded-lg focus:outline-none">
+              <option value="en">English</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="de">Deutsch</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Shopping Cart Drawer -->
+  <div id="cartDrawer" class="fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-2xl z-50 cart-drawer transform translate-x-full overflow-y-auto">
+    <div class="p-6">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-xl font-bold">Your Cart (3)</h2>
+        <button id="closeCart" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times text-lg"></i>
+        </button>
+      </div>
+      
+      <div class="space-y-6">
+        <!-- Cart Item 1 -->
+        <div class="flex border-b border-gray-100 pb-6">
+          <img src="https://images.unsplash.com/photo-1649180556628-9ba704115795?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxfHxQeXRob24lMjBQcm9ncmFtbWluZ3xlbnwwfHx8fDE3NTUzNzg0ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Python Programming Masterclass" class="w-20 h-20 object-cover rounded">
+          <div class="ml-4 flex-1">
+            <h4 class="font-medium">Python Programming Masterclass</h4>
+            <p class="text-gray-600 text-sm">Dr. Alex Johnson</p>
+            <div class="flex justify-between items-center mt-2">
+              <span class="font-bold text-blue-600">$59.99</span>
+              <button class="text-red-500 text-sm hover:text-red-700">Remove</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Cart Item 2 -->
+        <div class="flex border-b border-gray-100 pb-6">
+          <img src="https://cdn.pixabay.com/photo/2018/05/08/08/44/artificial-intelligence-3382507_960_720.jpg" alt="AI & Machine Learning Fundamentals" class="w-20 h-20 object-cover rounded">
+          <div class="ml-4 flex-1">
+            <h4 class="font-medium">AI & Machine Learning Fundamentals</h4>
+            <p class="text-gray-600 text-sm">Prof. Sarah Williams</p>
+            <div class="flex justify-between items-center mt-2">
+              <span class="font-bold text-blue-600">$79.99</span>
+              <button class="text-red-500 text-sm hover:text-red-700">Remove</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Cart Item 3 -->
+        <div class="flex border-b border-gray-100 pb-6">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHw0fHxEaWdpdGFsJTIwTWFya2V0aW5nfGVufDB8fHx8MTc1NTM3ODM5Nnww&ixlib=rb-4.1.0&q=80&w=1080" alt="Digital Marketing Mastery" class="w-20 h-20 object-cover rounded">
+          <div class="ml-4 flex-1">
+            <h4 class="font-medium">Digital Marketing Mastery</h4>
+            <p class="text-gray-600 text-sm">Emma Rodriguez</p>
+            <div class="flex justify-between items-center mt-2">
+              <span class="font-bold text-blue-600">$64.99</span>
+              <button class="text-red-500 text-sm hover:text-red-700">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8">
+        <div class="flex justify-between mb-2 text-sm">
+          <span class="text-gray-600">Subtotal</span>
+          <span>$204.97</span>
+        </div>
+        <div class="flex justify-between mb-2 text-sm">
+          <span class="text-gray-600">Discount</span>
+          <span>-$20.50</span>
+        </div>
+        <div class="flex justify-between font-bold text-lg mt-4">
+          <span>Total</span>
+          <span>$184.47</span>
+        </div>
+        
+        <button class="bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg w-full mt-6 font-semibold">
+          Proceed to Checkout
+        </button>
+        <button class="text-blue-600 hover:text-blue-800 py-3 rounded-lg w-full mt-2 font-medium">
+          Continue Shopping
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Course Preview Modal -->
+  <div id="coursePreviewModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 modal">
+    <div class="bg-white rounded-xl max-w-4xl w-full mx-4 overflow-hidden relative">
+      <button id="closeModal" class="absolute top-4 right-4 text-white bg-gray-800 rounded-full h-8 w-8 flex items-center justify-center hover:bg-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="relative">
+        <div class="aspect-w-16 aspect-h-9">
+          <iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Course preview" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="p-6">
+        <h3 class="text-2xl font-bold mb-2">Python Programming Masterclass</h3>
+        <p class="text-gray-600 mb-4">Get a sneak peek of what you'll learn in this comprehensive programming course.</p>
+        <div class="flex flex-wrap gap-4">
+          <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-semibold flex-1">Enroll Now</button>
+          <button class="border border-gray-300 hover:border-gray-400 py-2 px-6 rounded-lg font-medium flex-1">Add to Wishlist</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to top button -->
+  <button id="backToTop" class="fixed bottom-6 right-6 bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition duration-300">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+  <script id="app-script">
+    // Initialize AOS (Animate on scroll)
+    document.addEventListener('DOMContentLoaded', function() {
+      AOS.init({
+        duration: 800,
+        once: true
+      });
+
+      // Initialize Swiper for testimonials
+      const testimonialSwiper = new Swiper('.testimonial-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        breakpoints: {
+          640: {
+            slidesPerView: 1,
+          },
+          768: {
+            slidesPerView: 2,
+          },
+          1024: {
+            slidesPerView: 3,
+          },
+        },
+        autoplay: {
+          delay: 5000,
+        },
+      });
+
+      // Dark mode toggle
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      const darkModeIcon = document.getElementById('darkModeIcon');
+      const htmlElement = document.documentElement;
+      
+      // Check if user preference exists in localStorage
+      const isDarkMode = localStorage.getItem('darkMode') === 'true';
+      
+      // Initial setup
+      if (isDarkMode) {
+        htmlElement.classList.add('dark');
+        darkModeIcon.classList.remove('fa-moon');
+        darkModeIcon.classList.add('fa-sun');
+      }
+      
+      darkModeToggle.addEventListener('click', () => {
+        // Toggle dark mode
+        htmlElement.classList.toggle('dark');
+        
+        // Update icon
+        const isDark = htmlElement.classList.contains('dark');
+        if (isDark) {
+          darkModeIcon.classList.remove('fa-moon');
+          darkModeIcon.classList.add('fa-sun');
+        } else {
+          darkModeIcon.classList.remove('fa-sun');
+          darkModeIcon.classList.add('fa-moon');
+        }
+        
+        // Save preference to localStorage
+        localStorage.setItem('darkMode', isDark);
+      });
+      
+      // Mobile menu toggle
+      const mobileMenuButton = document.getElementById('mobileMenuButton');
+      const mobileMenu = document.getElementById('mobileMenu');
+      
+      mobileMenuButton.addEventListener('click', () => {
+        const isVisible = mobileMenu.classList.contains('hidden');
+        if (isVisible) {
+          mobileMenu.classList.remove('hidden');
+        } else {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+
+      // Cart drawer functionality
+      const cartButton = document.getElementById('cartButton');
+      const closeCart = document.getElementById('closeCart');
+      const cartDrawer = document.getElementById('cartDrawer');
+      
+      cartButton.addEventListener('click', () => {
+        cartDrawer.classList.add('open');
+      });
+      
+      closeCart.addEventListener('click', () => {
+        cartDrawer.classList.remove('open');
+      });
+      
+      // Close cart when clicking outside
+      document.addEventListener('click', (e) => {
+        if (cartDrawer.classList.contains('open') && 
+            !cartDrawer.contains(e.target) && 
+            !cartButton.contains(e.target)) {
+          cartDrawer.classList.remove('open');
+        }
+      });
+      
+      // User menu dropdown
+      const userMenu = document.getElementById('userMenu');
+      const dropdownMenu = document.querySelector('.dropdown-menu');
+      
+      userMenu.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('show');
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', () => {
+        dropdownMenu.classList.remove('show');
+      });
+      
+      // Grid/List view toggle
+      const gridViewBtn = document.getElementById('grid-view-btn');
+      const listViewBtn = document.getElementById('list-view-btn');
+      const gridView = document.getElementById('grid-view');
+      const listView = document.getElementById('list-view');
+      
+      gridViewBtn.addEventListener('click', () => {
+        gridViewBtn.classList.remove('bg-gray-200', 'text-gray-600');
+        gridViewBtn.classList.add('bg-blue-600', 'text-white');
+        listViewBtn.classList.remove('bg-blue-600', 'text-white');
+        listViewBtn.classList.add('bg-gray-200', 'text-gray-600');
+        gridView.classList.remove('hidden');
+        listView.classList.add('hidden');
+      });
+      
+      listViewBtn.addEventListener('click', () => {
+        listViewBtn.classList.remove('bg-gray-200', 'text-gray-600');
+        listViewBtn.classList.add('bg-blue-600', 'text-white');
+        gridViewBtn.classList.remove('bg-blue-600', 'text-white');
+        gridViewBtn.classList.add('bg-gray-200', 'text-gray-600');
+        listView.classList.remove('hidden');
+        gridView.classList.add('hidden');
+      });
+      
+      // Course preview modal
+      const previewButtons = document.querySelectorAll('.course-card');
+      const coursePreviewModal = document.getElementById('coursePreviewModal');
+      const closeModal = document.getElementById('closeModal');
+      
+      previewButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          coursePreviewModal.classList.add('active');
+        });
+      });
+      
+      closeModal.addEventListener('click', () => {
+        coursePreviewModal.classList.remove('active');
+      });
+      
+      coursePreviewModal.addEventListener('click', (e) => {
+        if (e.target === coursePreviewModal) {
+          coursePreviewModal.classList.remove('active');
+        }
+      });
+
+      // Wishlist button functionality
+      const wishlistButtons = document.querySelectorAll('.wishlist-button');
+      
+      wishlistButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const icon = button.querySelector('i');
+          icon.classList.toggle('far');
+          icon.classList.toggle('fas');
+          icon.classList.toggle('text-red-500');
+          icon.classList.toggle('text-gray-600');
+        });
+      });
+      
+      // Back to top button
+      const backToTopButton = document.getElementById('backToTop');
+      
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTopButton.classList.add('visible');
+        } else {
+          backToTopButton.classList.remove('visible');
+        }
+      });
+      
+      backToTopButton.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+
+      // Stats counter animation
+      const statCounters = document.querySelectorAll('.stat-counter');
+      let countersStarted = false;
+
+      function startCounters() {
+        if (countersStarted) return;
+        
+        statCounters.forEach(counter => {
+          const target = parseInt(counter.getAttribute('data-target'));
+          const duration = 2000;
+          const step = target / (duration / 16);
+          let current = 0;
+
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+              counter.textContent = target.toLocaleString();
+              clearInterval(timer);
+            } else {
+              counter.textContent = Math.floor(current).toLocaleString();
+            }
+          }, 16);
+        });
+
+        countersStarted = true;
+      }
+
+      // Check if element is in viewport
+      function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+          rect.top >= 0 &&
+          rect.left >= 0 &&
+          rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+          rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+      }
+
+      // Start counters when stats section comes into view
+      window.addEventListener('scroll', () => {
+        if (!countersStarted && statCounters.length > 0) {
+          if (isInViewport(statCounters[0])) {
+            startCounters();
+          }
+        }
+      });
+
+      // Trigger immediately if already in viewport
+      if (statCounters.length > 0 && isInViewport(statCounters[0])) {
+        startCounters();
+      }
+
+      // Animated background bubbles
+      const bubbles = document.querySelectorAll('.bubble');
+      
+      bubbles.forEach(bubble => {
+        // Random delay for staggered animations
+        const delay = Math.random() * 5;
+        const duration = 8 + Math.random() * 10;
+        bubble.style.animationDelay = `${delay}s`;
+        bubble.style.animationDuration = `${duration}s`;
+      });
+    });
+  </script>
+</body>
+</html>

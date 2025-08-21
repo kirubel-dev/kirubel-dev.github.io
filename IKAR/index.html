@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IKAR - Farm & Construction Tools</title>
+  <meta name="description" content="IKAR - Premium Quality Farm and Construction Tools. Browse our extensive collection of professional-grade equipment.">
+  <meta name="keywords" content="farm tools, construction tools, professional tools, IKAR, equipment">
+  
+  <!-- External CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Framer Motion -->
+  <script src="https://cdn.jsdelivr.net/npm/framer-motion@10.12.4/dist/framer-motion.umd.min.js"></script>
+  
+  <style id="app-style">
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+    
+    :root {
+      --color-primary: #4D7C0F;
+      --color-secondary: #EAB308;
+      --color-dark: #1F2937;
+      --color-light: #F9FAFB;
+      --color-gray: #6B7280;
+      --color-accent: #D97706;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .hero-slider {
+      height: 600px;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-slider {
+        height: 400px;
+      }
+    }
+    
+    .hero-slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    
+    .hero-slide.active {
+      opacity: 1;
+    }
+    
+    .category-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-primary {
+      background-color: var(--color-primary);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background-color: #3F6C0D;
+    }
+    
+    .btn-secondary {
+      background-color: var(--color-secondary);
+      color: var(--color-dark);
+      padding: 0.5rem 1.5rem;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #CA8A04;
+    }
+    
+    .cart-drawer {
+      width: 100%;
+      max-width: 450px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      right: -450px;
+      background: white;
+      z-index: 50;
+      transition: right 0.3s ease-in-out;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+    }
+    
+    .cart-drawer.open {
+      right: 0;
+    }
+    
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 49;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .cart-overlay.open {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    .rating {
+      color: #EAB308;
+    }
+    
+    .animate-gear {
+      animation: spin 20s linear infinite;
+    }
+    
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    
+    .scroll-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 20;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .scroll-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .dark {
+      background-color: var(--color-dark);
+      color: var(--color-light);
+    }
+    
+    .dark .card {
+      background-color: #374151;
+      color: var(--color-light);
+    }
+    
+    .countdown-timer {
+      display: flex;
+      gap: 10px;
+      font-weight: bold;
+    }
+    
+    .countdown-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .countdown-value {
+      background: var(--color-primary);
+      color: white;
+      border-radius: 4px;
+      padding: 5px;
+      min-width: 40px;
+      text-align: center;
+    }
+    
+    .countdown-label {
+      font-size: 0.75rem;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300" id="top">
+  <!-- Background Animation -->
+  <div class="fixed w-full h-full top-0 left-0 -z-10 opacity-10 pointer-events-none overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxfHx3ZWIlMjBkZXNpZ258ZW58MHx8fHwxNzU1MjQ5MzQyfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="" class="animate-gear absolute w-40 h-40 top-10 left-10 opacity-50">
+    <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxfHx3ZWIlMjBkZXNpZ258ZW58MHx8fHwxNzU1MjQ5MzQyfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="" class="animate-gear absolute w-64 h-64 bottom-40 right-20 opacity-30" style="animation-duration: 30s;">
+    <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxfHx3ZWIlMjBkZXNpZ258ZW58MHx8fHwxNzU1MjQ5MzQyfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="" class="animate-gear absolute w-24 h-24 bottom-10 left-1/4 opacity-40" style="animation-duration: 25s;">
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white dark:bg-gray-800 shadow-md">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center py-4">
+        <div class="flex items-center">
+          <div class="font-bold text-2xl text-primary-600 mr-10">
+            <a href="javascript:void(0)" class="flex items-center">
+              <span class="text-green-700 dark:text-green-500">IKAR</span>
+              <span class="text-yellow-500 ml-1">Tools</span>
+            </a>
+          </div>
+          <nav class="hidden md:flex space-x-6">
+            <a href="#" class="text-gray-700 hover:text-green-700 dark:text-gray-200 dark:hover:text-green-500 font-medium">Home</a>
+            <div class="relative group">
+              <a href="javascript:void(0)" class="text-gray-700 hover:text-green-700 dark:text-gray-200 dark:hover:text-green-500 font-medium flex items-center">
+                Products
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </a>
+              <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg p-2 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300">
+                <a href="javascript:void(0)" class="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-900 rounded">Farming Tools</a>
+                <a href="javascript:void(0)" class="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-900 rounded">Construction Tools</a>
+                <a href="javascript:void(0)" class="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-900 rounded">Safety Gear</a>
+                <a href="javascript:void(0)" class="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-900 rounded">Spare Parts</a>
+              </div>
+            </div>
+            <a href="javascript:void(0)" class="text-gray-700 hover:text-green-700 dark:text-gray-200 dark:hover:text-green-500 font-medium">About Us</a>
+            <a href="javascript:void(0)" class="text-gray-700 hover:text-green-700 dark:text-gray-200 dark:hover:text-green-500 font-medium">Contact</a>
+          </nav>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" id="theme-toggle-dark-icon" class="hidden h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" id="theme-toggle-light-icon" class="hidden h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </button>
+          <button id="search-button" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+          <button id="open-cart-button" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span class="absolute top-0 right-0 bg-green-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center" id="cart-count">0</span>
+          </button>
+          <button id="mobile-menu-button" class="md:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden bg-white dark:bg-gray-800 py-2 px-4 hidden">
+      <a href="#" class="block py-2 text-gray-700 dark:text-gray-200 font-medium">Home</a>
+      <button class="flex justify-between items-center w-full py-2 text-gray-700 dark:text-gray-200 font-medium" id="mobile-products-button">
+        Products
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      <div id="mobile-products-menu" class="hidden pl-4">
+        <a href="javascript:void(0)" class="block py-2 text-gray-700 dark:text-gray-300">Farming Tools</a>
+        <a href="javascript:void(0)" class="block py-2 text-gray-700 dark:text-gray-300">Construction Tools</a>
+        <a href="javascript:void(0)" class="block py-2 text-gray-700 dark:text-gray-300">Safety Gear</a>
+        <a href="javascript:void(0)" class="block py-2 text-gray-700 dark:text-gray-300">Spare Parts</a>
+      </div>
+      <a href="javascript:void(0)" class="block py-2 text-gray-700 dark:text-gray-200 font-medium">About Us</a>
+      <a href="javascript:void(0)" class="block py-2 text-gray-700 dark:text-gray-200 font-medium">Contact</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-slider relative overflow-hidden">
+      <div class="hero-slide active" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://cdn.pixabay.com/photo/2017/06/20/08/12/maintenance-2422173_1280.jpg') no-repeat center center; background-size: cover;">
+        <div class="container mx-auto h-full flex items-center px-4">
+          <div class="text-white max-w-xl">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Professional Tools for Every Job</h1>
+            <p class="text-lg mb-6">Discover our premium selection of construction and farming equipment.</p>
+            <div class="flex flex-wrap gap-4">
+              <a href="javascript:void(0)" class="btn-primary">Shop Now</a>
+              <a href="javascript:void(0)" class="border border-white text-white hover:bg-white hover:text-gray-900 px-6 py-2 rounded-md transition duration-300">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://cdn.pixabay.com/photo/2016/06/20/13/44/farmer-1468655_1280.jpg') no-repeat center center; background-size: cover;">
+        <div class="container mx-auto h-full flex items-center px-4">
+          <div class="text-white max-w-xl">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Top Quality Farming Tools</h1>
+            <p class="text-lg mb-6">Equipment that farmers trust for reliability and durability.</p>
+            <div class="flex flex-wrap gap-4">
+              <a href="javascript:void(0)" class="btn-secondary">Browse Collection</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://cdn.pixabay.com/photo/2017/08/24/03/41/building-2675570_1280.jpg') no-repeat center center; background-size: cover;">
+        <div class="container mx-auto h-full flex items-center px-4">
+          <div class="text-white max-w-xl">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Construction Made Easier</h1>
+            <p class="text-lg mb-6">Professional-grade equipment for all your construction needs.</p>
+            <div class="flex flex-wrap gap-4">
+              <a href="javascript:void(0)" class="btn-primary">Explore Tools</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Hero Controls -->
+      <div class="absolute bottom-5 left-0 right-0 flex justify-center gap-2">
+        <button class="w-3 h-3 rounded-full bg-white bg-opacity-50 hero-dot active" data-index="0"></button>
+        <button class="w-3 h-3 rounded-full bg-white bg-opacity-50 hero-dot" data-index="1"></button>
+        <button class="w-3 h-3 rounded-full bg-white bg-opacity-50 hero-dot" data-index="2"></button>
+      </div>
+      <button class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white p-2 rounded-full" id="prev-slide">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white p-2 rounded-full" id="next-slide">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-16 bg-white dark:bg-gray-800">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">Browse By Category</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <a href="javascript:void(0)" class="category-card bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden transition duration-300">
+            <div class="h-48 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1627920769842-6887c6df05ca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxNnx8RmFybWluZ3xlbnwwfHx8fDE3NTUyOTAzOTZ8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Farming Tools" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Farming Tools</h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-4">High-quality equipment for agricultural needs</p>
+              <span class="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-sm font-semibold py-1 px-3 rounded-full">120+ Products</span>
+            </div>
+          </a>
+          <a href="javascript:void(0)" class="category-card bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden transition duration-300">
+            <div class="h-48 overflow-hidden">
+              <img src="https://cdn.pixabay.com/photo/2015/07/28/20/55/tools-864983_1280.jpg" alt="Construction Tools" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Construction Tools</h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-4">Professional equipment for building and construction</p>
+              <span class="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-sm font-semibold py-1 px-3 rounded-full">85+ Products</span>
+            </div>
+          </a>
+          <a href="javascript:void(0)" class="category-card bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden transition duration-300">
+            <div class="h-48 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1603516270950-26e4f5004ffd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwzOXx8c2FmZXR5JTIwR2VhcnxlbnwwfHx8fDE3NTUyOTA1NzN8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Safety Gear" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Safety Gear</h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-4">Protection equipment for every workplace</p>
+              <span class="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-sm font-semibold py-1 px-3 rounded-full">50+ Products</span>
+            </div>
+          </a>
+          <a href="javascript:void(0)" class="category-card bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden transition duration-300">
+            <div class="h-48 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1632496497047-706290273235?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwyfHxTcGFyZSUyMFBhcnRzfGVufDB8fHx8MTc1NTI5MDY0NXww&ixlib=rb-4.1.0&q=80&w=1080" alt="Spare Parts" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Spare Parts</h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-4">Replacement components for your equipment</p>
+              <span class="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-sm font-semibold py-1 px-3 rounded-full">200+ Products</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Featured Products -->
+    <section class="py-16 bg-gray-50 dark:bg-gray-900">
+      <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Featured Products</h2>
+          <div class="flex space-x-2">
+            <button id="prev-product" class="p-2 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button id="next-product" class="p-2 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div class="products-slider overflow-hidden">
+          <div class="flex transition-transform duration-300 gap-6">
+            <!-- Product Card 1 -->
+            <div class="product-card min-w-[280px] max-w-[280px] bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+              <div class="relative h-48">
+                <img src="https://images.unsplash.com/photo-1607870411590-d5e9e06da09a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxfHxQcm8lMjBIYW1tZXJ8ZW58MHx8fHwxNzU1MjkwNjc2fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Pro Hammer" class="w-full h-full object-cover">
+                <div class="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-1 rounded">New</div>
+              </div>
+              <div class="p-4">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-gray-500 dark:text-gray-400 text-sm">Construction</span>
+                  <div class="rating flex">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                </div>
+                <h3 class="font-bold text-lg mb-2 text-gray-800 dark:text-white">Professional Hammer</h3>
+                <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">Heavy-duty construction hammer with ergonomic grip</p>
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-green-700 dark:text-green-500">$45.99</span>
+                  <button class="add-to-cart bg-green-600 hover:bg-green-700 text-white py-1 px-3 rounded-md text-sm transition duration-300" data-id="1">
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Product Card 2 -->
+            <div class="product-card min-w-[280px] max-w-[280px] bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+              <div class="relative h-48">
+                <img src="https://images.unsplash.com/photo-1513467655676-561b7d489a88?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHw1fHxDaXJjdWxhciUyMFNhd3xlbnwwfHx8fDE3NTUyOTA3MjJ8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Circular Saw" class="w-full h-full object-cover">
+                <div class="absolute top-2 left-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded">Best Seller</div>
+              </div>
+              <div class="p-4">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-gray-500 dark:text-gray-400 text-sm">Construction</span>
+                  <div class="rating flex">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                </div>
+                <h3 class="font-bold text-lg mb-2 text-gray-800 dark:text-white">Circular Saw</h3>
+                <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">Powerful 15-amp circular saw with laser guide</p>
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-green-700 dark:text-green-500">$129.99</span>
+                  <button class="add-to-cart bg-green-600 hover:bg-green-700 text-white py-1 px-3 rounded-md text-sm transition duration-300" data-id="2">
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Product Card 3 -->
+            <div class="product-card min-w-[280px] max-w-[280px] bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+              <div class="relative h-48">
+                <img src="https://images.unsplash.com/photo-1567954970774-58d6aa6c50dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxfHxTYWZldHklMjBIZWxtZXR8ZW58MHx8fHwxNzU1MjkwODA3fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Safety Helmet" class="w-full h-full object-cover">
+              </div>
+              <div class="p-4">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-gray-500 dark:text-gray-400 text-sm">Safety Gear</span>
+                  <div class="rating flex">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </div>
+                </div>
+                <h3 class="font-bold text-lg mb-2 text-gray-800 dark:text-white">Safety Helmet</h3>
+                <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">ANSI-certified construction safety helmet</p>
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-green-700 dark:text-green-500">$34.99</span>
+                  <button class="add-to-cart bg-green-600 hover:bg-green-700 text-white py-1 px-3 rounded-md text-sm transition duration-300" data-id="3">
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Product Card 4 -->
+            <div class="product-card min-w-[280px] max-w-[280px] bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+              <div class="relative h-48">
+                <img src="https://images.unsplash.com/photo-1523301551780-cd17359a95d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxfHxHYXJkZW5pbmclMjB0b29sfGVufDB8fHx8MTc1NTI5MDc2OXww&ixlib=rb-4.1.0&q=80&w=1080" alt="Gardening Set" class="w-full h-full object-cover">
+                <div class="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded">Sale</div>
+              </div>
+              <div class="p-4">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-gray-500 dark:text-gray-400 text-sm">Farming</span>
+                  <div class="rating flex">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <i class="far fa-star"></i>
+                  </div>
+                </div>
+                <h3 class="font-bold text-lg mb-2 text-gray-800 dark:text-white">Garden Tool Set</h3>
+                <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">Complete set of 7 essential gardening tools</p>
+                <div class="flex justify-between items-center">
+                  <div>
+                    <span class="font-bold text-green-700 dark:text-green-500">$49.99</span>
+                    <span class="text-gray-500 line-through text-sm ml-2">$69.99</span>
+                  </div>
+                  <button class="add-to-cart bg-green-600 hover:bg-green-700 text-white py-1 px-3 rounded-md text-sm transition duration-300" data-id="4">
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Product Card 5 -->
+            <div class="product-card min-w-[280px] max-w-[280px] bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+              <div class="relative h-48">
+                <img src="https://images.unsplash.com/photo-1625559424722-7b7d1199ad6e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxNXx8V29yayUyMEdsb3Zlc3xlbnwwfHx8fDE3NTUyOTA3ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Work Gloves" class="w-full h-full object-cover">
+              </div>
+              <div class="p-4">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-gray-500 dark:text-gray-400 text-sm">Safety Gear</span>
+                  <div class="rating flex">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </div>
+                </div>
+                <h3 class="font-bold text-lg mb-2 text-gray-800 dark:text-white">Work Gloves</h3>
+                <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">Heavy-duty leather work gloves, puncture resistant</p>
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-green-700 dark:text-green-500">$24.99</span>
+                  <button class="add-to-cart bg-green-600 hover:bg-green-700 text-white py-1 px-3 rounded-md text-sm transition duration-300" data-id="5">
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Special Offers -->
+    <section class="py-16 bg-white dark:bg-gray-800">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">Special Offers</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Offer 1 -->
+          <div class="bg-gradient-to-r from-green-700 to-green-600 rounded-lg shadow-lg overflow-hidden">
+            <div class="md:flex">
+              <div class="md:w-2/5">
+                <img src="https://images.unsplash.com/photo-1615746363486-92cd8c5e0a90?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHw0fHxQb3dlciUyMFRvb2wlMjBTZXR8ZW58MHx8fHwxNzU1MjkwODIxfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Power Tool Set" class="w-full h-full object-cover">
+              </div>
+              <div class="p-8 md:w-3/5">
+                <span class="text-white text-sm font-semibold uppercase tracking-wide">Limited Time Offer</span>
+                <h3 class="text-white text-2xl font-bold mt-2">Power Tool Combo Kit</h3>
+                <p class="text-white text-opacity-90 my-4">Complete set of professional power tools including drill, saw, and sander.</p>
+                <div class="mb-4">
+                  <div class="flex items-center">
+                    <span class="text-white text-3xl font-bold">$299.99</span>
+                    <span class="text-white text-opacity-80 line-through ml-2">$429.99</span>
+                  </div>
+                  <span class="inline-block bg-yellow-500 text-gray-900 font-bold rounded px-2 py-1 text-sm mt-1">Save $130</span>
+                </div>
+                <div class="mb-4">
+                  <p class="text-white text-sm mb-2">Offer ends in:</p>
+                  <div class="countdown-timer" data-target="2023-12-31T23:59:59">
+                    <div class="countdown-item">
+                      <span class="countdown-value" id="days">00</span>
+                      <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-item">
+                      <span class="countdown-value" id="hours">00</span>
+                      <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-item">
+                      <span class="countdown-value" id="minutes">00</span>
+                      <span class="countdown-label">Mins</span>
+                    </div>
+                    <div class="countdown-item">
+                      <span class="countdown-value" id="seconds">00</span>
+                      <span class="countdown-label">Secs</span>
+                    </div>
+                  </div>
+                </div>
+                <button class="bg-white hover:bg-gray-200 text-green-800 font-semibold py-2 px-6 rounded-md transition duration-300 add-to-cart" data-id="6">Shop Now</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Offer 2 -->
+          <div class="bg-gradient-to-r from-yellow-600 to-yellow-500 rounded-lg shadow-lg overflow-hidden">
+            <div class="md:flex">
+              <div class="md:w-2/5">
+                <img src="https://images.unsplash.com/photo-1600609593831-1cd5ffa6930e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwzMHx8U2FmZXR5JTIwRXF1aXBtZW50fGVufDB8fHx8MTc1NTI5MDg1MXww&ixlib=rb-4.1.0&q=80&w=1080" alt="Safety Equipment" class="w-full h-full object-cover">
+              </div>
+              <div class="p-8 md:w-3/5">
+                <span class="text-white text-sm font-semibold uppercase tracking-wide">Special Bundle</span>
+                <h3 class="text-white text-2xl font-bold mt-2">Complete Safety Kit</h3>
+                <p class="text-white text-opacity-90 my-4">Everything you need for workplace safety: helmet, glasses, gloves, and more.</p>
+                <div class="mb-4">
+                  <div class="flex items-center">
+                    <span class="text-white text-3xl font-bold">$89.99</span>
+                    <span class="text-white text-opacity-80 line-through ml-2">$149.99</span>
+                  </div>
+                  <span class="inline-block bg-green-700 text-white font-bold rounded px-2 py-1 text-sm mt-1">40% OFF</span>
+                </div>
+                <div class="mb-4">
+                  <p class="text-white text-sm mb-2">Offer ends in:</p>
+                  <div class="countdown-timer" data-target="2023-11-30T23:59:59">
+                    <div class="countdown-item">
+                      <span class="countdown-value">00</span>
+                      <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-item">
+                      <span class="countdown-value">00</span>
+                      <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-item">
+                      <span class="countdown-value">00</span>
+                      <span class="countdown-label">Mins</span>
+                    </div>
+                    <div class="countdown-item">
+                      <span class="countdown-value">00</span>
+                      <span class="countdown-label">Secs</span>
+                    </div>
+                  </div>
+                </div>
+                <button class="bg-white hover:bg-gray-200 text-yellow-700 font-semibold py-2 px-6 rounded-md transition duration-300 add-to-cart" data-id="7">Shop Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Testimonials -->
+    <section class="py-16 bg-gray-50 dark:bg-gray-900">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">What Our Customers Say</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Testimonial 1 -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                <img src="https://cdn.pixabay.com/photo/2017/08/01/01/33/beanie-2562646_1280.jpg" alt="John Smith" class="w-full h-full object-cover">
+              </div>
+              <div>
+                <h3 class="font-bold text-gray-800 dark:text-white">John Smith</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">Construction Manager</p>
+              </div>
+            </div>
+            <div class="rating flex mb-4">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300">"I've been using IKAR tools for over 5 years now. Their products are durable and reliable, even in the harshest conditions. The customer service is excellent too!"</p>
+          </div>
+          
+          <!-- Testimonial 2 -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                <img src="https://cdn.pixabay.com/photo/2016/11/29/13/14/attractive-1869761_1280.jpg" alt="Maria Rodriguez" class="w-full h-full object-cover">
+              </div>
+              <div>
+                <h3 class="font-bold text-gray-800 dark:text-white">Maria Rodriguez</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">Farm Owner</p>
+              </div>
+            </div>
+            <div class="rating flex mb-4">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300">"The farming equipment from IKAR has made our work so much more efficient. The tools are well-made and the price point is reasonable for the quality you receive."</p>
+          </div>
+          
+          <!-- Testimonial 3 -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                <img src="https://cdn.pixabay.com/photo/2016/11/21/12/42/beard-1845166_1280.jpg" alt="David Chen" class="w-full h-full object-cover">
+              </div>
+              <div>
+                <h3 class="font-bold text-gray-800 dark:text-white">David Chen</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">DIY Enthusiast</p>
+              </div>
+            </div>
+            <div class="rating flex mb-4">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300">"As someone who loves DIY projects, I need tools that are both affordable and high-quality. IKAR delivers on both fronts. Their customer support is top-notch too!"</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Newsletter -->
+    <section class="py-16 bg-green-700 text-white">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center justify-between">
+          <div class="mb-6 md:mb-0 md:w-1/2">
+            <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
+            <p class="text-white text-opacity-90">Subscribe to our newsletter for the latest product updates, promotions, and industry news.</p>
+          </div>
+          <div class="w-full md:w-1/2">
+            <form class="flex flex-col sm:flex-row gap-4">
+              <input type="email" placeholder="Your email address" class="flex-grow py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 text-gray-900">
+              <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-6 rounded-md transition duration-300">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white pt-16 pb-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        <div>
+          <h3 class="text-xl font-bold mb-6">IKAR Tools</h3>
+          <p class="text-gray-300 mb-6">Providing high-quality farm and construction tools since 1995. Built to last and designed for professionals.</p>
+          <div class="flex space-x-4">
+            <a href="javascript:void(0)" class="text-white hover:text-yellow-400 transition duration-300">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="javascript:void(0)" class="text-white hover:text-yellow-400 transition duration-300">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="javascript:void(0)" class="text-white hover:text-yellow-400 transition duration-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="javascript:void(0)" class="text-white hover:text-yellow-400 transition duration-300">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-6">Quick Links</h3>
+          <ul class="space-y-3">
+            <li><a href="javascript:void(0)" class="text-gray-300 hover:text-white transition duration-300">Home</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-300 hover:text-white transition duration-300">Shop</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-300 hover:text-white transition duration-300">About Us</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-300 hover:text-white transition duration-300">Contact</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-300 hover:text-white transition duration-300">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-6">Customer Service</h3>
+          <ul class="space-y-3">
+            <li><a href="javascript:void(0)" class="text-gray-300 hover:text-white transition duration-300">FAQ</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-300 hover:text-white transition duration-300">Shipping & Returns</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-300 hover:text-white transition duration-300">Warranty Information</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-300 hover:text-white transition duration-300">Track Order</a></li>
+            <li><a href="javascript:void(0)" class="text-gray-300 hover:text-white transition duration-300">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-6">Contact Us</h3>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt mt-1 mr-3 text-yellow-500"></i>
+              <span class="text-gray-300">1234 Industrial Blvd, Suite 500<br>Anytown, Et 12345</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone mr-3 text-yellow-500"></i>
+              <span class="text-gray-300">(+251)) 123-4567</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-3 text-yellow-500"></i>
+              <span class="text-gray-300">kirubeldubale1@gmail.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-clock mr-3 text-yellow-500"></i>
+              <span class="text-gray-300">Mon-Fri: 8am - 6pm</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-400 text-sm mb-4 md:mb-0">&copy; 2023 kirubel-dev. All rights reserved.</p>
+          <div class="flex space-x-6">
+            <a href="javascript:void(0)" class="text-gray-400 hover:text-white text-sm transition duration-300">Terms of Service</a>
+            <a href="javascript:void(0)" class="text-gray-400 hover:text-white text-sm transition duration-300">Privacy Policy</a>
+            <a href="javascript:void(0)" class="text-gray-400 hover:text-white text-sm transition duration-300">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Cart Drawer -->
+  <div id="cart-overlay" class="cart-overlay"></div>
+  <div id="cart-drawer" class="cart-drawer">
+    <div class="p-6">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Your Cart</h2>
+        <button id="close-cart-button" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div id="cart-items" class="mb-8">
+        <p class="text-gray-500 dark:text-gray-400 text-center py-10">Your cart is empty.</p>
+      </div>
+      <div id="cart-summary" class="border-t border-gray-200 dark:border-gray-700 pt-4 hidden">
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-600 dark:text-gray-300">Subtotal:</span>
+          <span class="font-semibold text-gray-800 dark:text-white" id="cart-subtotal">$0.00</span>
+        </div>
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-600 dark:text-gray-300">Shipping:</span>
+          <span class="font-semibold text-gray-800 dark:text-white" id="cart-shipping">$0.00</span>
+        </div>
+        <div class="flex justify-between mb-4 font-bold">
+          <span class="text-gray-800 dark:text-white">Total:</span>
+          <span class="text-green-700 dark:text-green-500" id="cart-total">$0.00</span>
+        </div>
+        <button id="checkout-button" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-md transition duration-300">
+          Proceed to Checkout
+        </button>
+        <button id="continue-shopping" class="w-full mt-4 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-white font-medium py-3 px-4 rounded-md transition duration-300">
+          Continue Shopping
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scroll to Top Button -->
+  <button id="scroll-to-top" class="scroll-to-top bg-green-600 hover:bg-green-700 text-white p-3 rounded-full shadow-lg transition duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+    </svg>
+  </button>
+  
+  <!-- Scripts -->
+  <script id="app-script">
+    // DOM elements
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileProductsButton = document.getElementById('mobile-products-button');
+    const mobileProductsMenu = document.getElementById('mobile-products-menu');
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const openCartButton = document.getElementById('open-cart-button');
+    const closeCartButton = document.getElementById('close-cart-button');
+    const cartDrawer = document.getElementById('cart-drawer');
+    const cartOverlay = document.getElementById('cart-overlay');
+    const continueShoppingButton = document.getElementById('continue-shopping');
+    const scrollToTopButton = document.getElementById('scroll-to-top');
+    const prevSlideButton = document.getElementById('prev-slide');
+    const nextSlideButton = document.getElementById('next-slide');
+    const heroDots = document.querySelectorAll('.hero-dot');
+    const prevProductButton = document.getElementById('prev-product');
+    const nextProductButton = document.getElementById('next-product');
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    const checkoutButton = document.getElementById('checkout-button');
+    
+    // Theme Toggle
+    if (localStorage.getItem('color-theme') === 'dark' || 
+        (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      themeToggleLightIcon.classList.remove('hidden');
+    } else {
+      document.documentElement.classList.remove('dark');
+      themeToggleDarkIcon.classList.remove('hidden');
+    }
+    
+    themeToggle.addEventListener('click', function() {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      
+      if (localStorage.getItem('color-theme')) {
+        if (localStorage.getItem('color-theme') === 'light') {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('color-theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('color-theme', 'light');
+        }
+      } else {
+        if (document.documentElement.classList.contains('dark')) {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('color-theme', 'light');
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('color-theme', 'dark');
+        }
+      }
+    });
+    
+    // Mobile menu
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    mobileProductsButton.addEventListener('click', () => {
+      mobileProductsMenu.classList.toggle('hidden');
+    });
+    
+    // Cart drawer
+    const openCart = () => {
+      cartDrawer.classList.add('open');
+      cartOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+    
+    const closeCart = () => {
+      cartDrawer.classList.remove('open');
+      cartOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+    
+    openCartButton.addEventListener('click', openCart);
+    closeCartButton.addEventListener('click', closeCart);
+    cartOverlay.addEventListener('click', closeCart);
+    continueShoppingButton.addEventListener('click', closeCart);
+    
+    // Scroll to Top
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollToTopButton.classList.add('visible');
+      } else {
+        scrollToTopButton.classList.remove('visible');
+      }
+    });
+    
+    scrollToTopButton.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    
+    // Hero slider
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.hero-slide');
+    
+    const showSlide = (index) => {
+      slides.forEach((slide) => slide.classList.remove('active'));
+      heroDots.forEach((dot) => dot.classList.remove('active'));
+      
+      slides[index].classList.add('active');
+      heroDots[index].classList.add('active');
+      currentSlide = index;
+    };
+    
+    const nextSlide = () => {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    };
+    
+    const prevSlide = () => {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    };
+    
+    nextSlideButton.addEventListener('click', nextSlide);
+    prevSlideButton.addEventListener('click', prevSlide);
+    
+    heroDots.forEach((dot, index) => {
+      dot.addEventListener('click', () => showSlide(index));
+    });
+    
+    // Auto slide
+    let slideInterval = setInterval(nextSlide, 5000);
+    
+    // Products slider
+    const productsSlider = document.querySelector('.products-slider .flex');
+    let translateX = 0;
+    const slideWidth = 300; // Approx width of product card + gap
+    
+    prevProductButton.addEventListener('click', () => {
+      const containerWidth = document.querySelector('.products-slider').offsetWidth;
+      const numVisibleCards = Math.floor(containerWidth / slideWidth);
+      
+      translateX = Math.min(translateX + numVisibleCards * slideWidth, 0);
+      productsSlider.style.transform = `translateX(${translateX}px)`;
+    });
+    
+    nextProductButton.addEventListener('click', () => {
+      const containerWidth = document.querySelector('.products-slider').offsetWidth;
+      const numVisibleCards = Math.floor(containerWidth / slideWidth);
+      const numCards = document.querySelectorAll('.product-card').length;
+      const maxTranslate = -((numCards - numVisibleCards) * slideWidth);
+      
+      translateX = Math.max(translateX - numVisibleCards * slideWidth, maxTranslate);
+      productsSlider.style.transform = `translateX(${translateX}px)`;
+    });
+    
+    // Cart functionality
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    updateCartUI();
+    
+    addToCartButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const productId = button.getAttribute('data-id');
+        addToCart(productId);
+        openCart();
+      });
+    });
+    
+    function addToCart(productId) {
+      // In a real app, we'd fetch product details from an API
+      // For this prototype, we'll use hardcoded product data
+      const product = getProductById(productId);
+      
+      const existingItemIndex = cart.findIndex(item => item.id === productId);
+      
+      if (existingItemIndex >= 0) {
+        cart[existingItemIndex].quantity += 1;
+      } else {
+        cart.push({
+          id: productId,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          quantity: 1
+        });
+      }
+      
+      saveCart();
+      updateCartUI();
+    }
+    
+    function removeFromCart(productId) {
+      cart = cart.filter(item => item.id !== productId);
+      saveCart();
+      updateCartUI();
+    }
+    
+    function updateQuantity(productId, quantity) {
+      const itemIndex = cart.findIndex(item => item.id === productId);
+      if (itemIndex >= 0) {
+        cart[itemIndex].quantity = quantity;
+        if (cart[itemIndex].quantity <= 0) {
+          removeFromCart(productId);
+        } else {
+          saveCart();
+          updateCartUI();
+        }
+      }
+    }
+    
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+    
+    function updateCartUI() {
+      const cartItemsEl = document.getElementById('cart-items');
+      const cartSummaryEl = document.getElementById('cart-summary');
+      const cartCountEl = document.getElementById('cart-count');
+      
+      // Update cart count
+      const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+      cartCountEl.textContent = totalItems;
+      
+      // Update cart items display
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-10">Your cart is empty.</p>';
+        cartSummaryEl.classList.add('hidden');
+      } else {
+        let cartHTML = '';
+        let subtotal = 0;
+        
+        cart.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          subtotal += itemTotal;
+          
+          cartHTML += `
+            <div class="flex py-4 border-b border-gray-200 dark:border-gray-700">
+              <div class="w-20 h-20 flex-shrink-0">
+                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover rounded-md">
+              </div>
+              <div class="ml-4 flex-grow">
+                <h3 class="text-gray-800 dark:text-white font-medium">${item.name}</h3>
+                <p class="text-green-700 dark:text-green-500 font-semibold">$${item.price.toFixed(2)}</p>
+                <div class="flex items-center mt-2">
+                  <button class="cart-quantity-btn text-gray-500 dark:text-gray-400 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-l-md" onclick="updateQuantity('${item.id}', ${item.quantity - 1})">-</button>
+                  <span class="px-4 py-1 border-y border-gray-300 dark:border-gray-600">${item.quantity}</span>
+                  <button class="cart-quantity-btn text-gray-500 dark:text-gray-400 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-r-md" onclick="updateQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                  <button class="ml-4 text-red-500 hover:text-red-700 transition-colors duration-300" onclick="removeFromCart('${item.id}')">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        
+        cartItemsEl.innerHTML = cartHTML;
+        cartSummaryEl.classList.remove('hidden');
+        
+        // Update summary
+        const shipping = subtotal > 0 ? 10 : 0;
+        const total = subtotal + shipping;
+        
+        document.getElementById('cart-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById('cart-shipping').textContent = `$${shipping.toFixed(2)}`;
+        document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
+      }
+    }
+    
+    // Checkout
+    checkoutButton.addEventListener('click', () => {
+      if (cart.length > 0) {
+        alert('This is a prototype. In a real application, you would be redirected to a checkout page.');
+      }
+    });
+    
+    // Expose functions to global scope for inline event handlers
+    window.updateQuantity = updateQuantity;
+    window.removeFromCart = removeFromCart;
+    
+    // Mock product data
+    function getProductById(id) {
+      const products = {
+        '1': { name: 'Professional Hammer', price: 45.99, image: 'https://images.unsplash.com/photo-1607870411590-d5e9e06da09a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxfHxQcm8lMjBIYW1tZXJ8ZW58MHx8fHwxNzU1MjkwNjc2fDA&ixlib=rb-4.1.0&q=80&w=1080' },
+        '2': { name: 'Circular Saw', price: 129.99, image: 'https://images.unsplash.com/photo-1513467655676-561b7d489a88?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHw1fHxDaXJjdWxhciUyMFNhd3xlbnwwfHx8fDE3NTUyOTA3MjJ8MA&ixlib=rb-4.1.0&q=80&w=1080' },
+        '3': { name: 'Safety Helmet', price: 34.99, image: 'https://images.unsplash.com/photo-1567954970774-58d6aa6c50dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxfHxTYWZldHklMjBIZWxtZXR8ZW58MHx8fHwxNzU1MjkwODA3fDA&ixlib=rb-4.1.0&q=80&w=1080' },
+        '4': { name: 'Garden Tool Set', price: 49.99, image: 'https://images.unsplash.com/photo-1523301551780-cd17359a95d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxfHxHYXJkZW5pbmclMjB0b29sfGVufDB8fHx8MTc1NTI5MDc2OXww&ixlib=rb-4.1.0&q=80&w=1080' },
+        '5': { name: 'Work Gloves', price: 24.99, image: 'https://images.unsplash.com/photo-1625559424722-7b7d1199ad6e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxNXx8V29yayUyMEdsb3Zlc3xlbnwwfHx8fDE3NTUyOTA3ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080' },
+        '6': { name: 'Power Tool Combo Kit', price: 299.99, image: 'https://images.unsplash.com/photo-1615746363486-92cd8c5e0a90?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHw0fHxQb3dlciUyMFRvb2wlMjBTZXR8ZW58MHx8fHwxNzU1MjkwODIxfDA&ixlib=rb-4.1.0&q=80&w=1080' },
+        '7': { name: 'Complete Safety Kit', price: 89.99, image: 'https://images.unsplash.com/photo-1600609593831-1cd5ffa6930e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwzMHx8U2FmZXR5JTIwRXF1aXBtZW50fGVufDB8fHx8MTc1NTI5MDg1MXww&ixlib=rb-4.1.0&q=80&w=1080' }
+      };
+      
+      return products[id] || { name: 'Unknown Product', price: 0, image: '' };
+    }
+    
+    // Countdown timer
+    function updateCountdown() {
+      const countdownElements = document.querySelectorAll('.countdown-timer');
+      
+      countdownElements.forEach((element, index) => {
+        const targetDate = index === 0 ? new Date('2023-12-31T23:59:59') : new Date('2023-11-30T23:59:59');
+        const now = new Date();
+        const difference = targetDate - now;
+        
+        if (difference <= 0) {
+          element.innerHTML = '<p>Offer has expired!</p>';
+          return;
+        }
+        
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        
+        const countdownValues = element.querySelectorAll('.countdown-value');
+        
+        if (countdownValues.length >= 4) {
+          countdownValues[0].textContent = days.toString().padStart(2, '0');
+          countdownValues[1].textContent = hours.toString().padStart(2, '0');
+          countdownValues[2].textContent = minutes.toString().padStart(2, '0');
+          countdownValues[3].textContent = seconds.toString().padStart(2, '0');
+        }
+      });
+    }
+    
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+</body>
+</html>
